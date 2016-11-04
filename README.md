@@ -16,6 +16,27 @@ supported.
 
 For more details see [Neomake's requirements](https://github.com/neomake/neomake#requirements).
 
+## Installation
+
+### [Neobundle](https://github.com/Shougo/neobundle.vim) / [Vundle](https://github.com/gmarik/Vundle.vim) / [vim-plug](https://github.com/junegunn/vim-plug)
+
+```vim
+NeoBundle 'neomake/neomake'
+Plugin 'neomake/neomake'
+
+NeoBundle 'dojoteef/neomake-autolint'
+Plugin 'dojoteef/neomake-autolint'
+
+Plug 'neomake/neomake' | Plug 'dojoteef/neomake-autolint'
+```
+
+### [pathogen](https://github.com/tpope/vim-pathogen)
+
+```
+git clone https://github.com/neomake/neomake ~/.vim/bundle/neomake
+git clone https://github.com/dojoteef/neomake-autolint ~/.vim/bundle/neomake-autolint
+```
+
 ## Frequently Asked Questions (FAQ)
 
 ### Neomake Autolint is not working.
