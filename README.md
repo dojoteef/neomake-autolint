@@ -78,4 +78,4 @@ refer to the [plugin's help](https://github.com/dojoteef/neomake-autolint/tree/m
 [Neobundle]: https://github.com/Shougo/neobundle.vim
 [Vundle]: https://github.com/gmarik/Vundle.vim
 [vim-plug]: https://github.com/junegunn/vim-plug
-[pathogen] :https://github.com/tpope/vim-pathogen
+[pathogen]: https://github.com/tpope/vim-pathogen
