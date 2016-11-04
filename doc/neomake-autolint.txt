@@ -1,0 +1,97 @@
+*neomake-autolint.txt* Autolint code Vim version 8.0 and Neovim
+
+        ░█▀█░█▀▀░█▀█░█▄█░█▀█░█░█░█▀▀░░░█▀█░█░█░▀█▀░█▀█░█░░░▀█▀░█▀█░▀█▀
+        ░█░█░█▀▀░█░█░█░█░█▀█░█▀▄░█▀▀░░░█▀█░█░█░░█░░█░█░█░░░░█░░█░█░░█░
+        ░▀░▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░▀░
+        
+
+       Lint source files as you type (without having to save) asynchronously
+
+==============================================================================
+CONTENTS                                            *neomake-autolint-contents*
+
+    1. Introduction ....................... |neomake-autolint-introduction|
+    2. Configuration ..................... |neomake-autolint-configuration|
+    3. Commands ............................... |neomake-autolint-commands|
+    4. Frequently Asked Questions (FAQ) ............ |neomake-autolint-faq|
+
+==============================================================================
+1. Introduction                                 *neomake-autolint-introduction*
+
+Neomake Autolint leverages Neomake's ability to asynchronously run linters on
+a file. It augments that functionality with the ability to run file level
+linters as you type so you get the most immediate feedback. This requires your
+version of (Neo)vim to support job control, otherwise the plugin will be
+disabled. Thanks goes out to the team of Neomake for making a great plugin!
+
+==============================================================================
+2. Configuration                               *neomake-autolint-configuration*
+
+There are only a few configuration options for Neomake Autolint. For most
+setups there should be very little you need to explicitly configure to use the
+plugin.
+
+Global Options                                       *neomake-autolint-options*
+
+*g:neomake_autolint_enabled*
+By default Neomake Autolint is only enabled if Neomake has asynchronous job
+support which makes the lint as you type approach work without constant
+pauses. If you want it to be enabled whether you have asynchronous job support
+or not just set this to 1.
+
+*g:neomake_autolint_cachedir*
+Where to cache temporary files used for linting unwritten buffers. Defaults to
+checking for |$XDG_CACHE_HOME| then |$HOME|/.cache. If no valid cache
+directory can be found the plugin will be disabled.
+
+*g:neomake_autolint_updatetime*
+The number of milliseconds to wait before running another Neomake lint over
+the file. Default to 500.
+
+*g:neomake_autolint_sign_column_always*
+Whether to keep the sign column showing all the time. If you find it annoying
+that the sign column flashes open/closed during autolinting set this to 1.
+Defaults to 0.
+
+==============================================================================
+3. Commands                                         *neomake-autolint-commands*
+
+*:NeomakeAutolintToggle* *:NeomakeAutolintToggle!*
+Running |:NeomakeAutolintToggle| will toggle Neomake Autolint on/off for the
+specified buffer (defaults to the current buffer), while the command
+|:NeomakeAutolintToggle!| will do that for all buffers.
+
+==============================================================================
+4. Frequently Asked Questions (FAQ)                      *neomake-autolint-faq*
+
+4.1 Neomake Autolint is not working.~
+
+There are a small number of issues that could cause Neomake Autolint to be
+disabled. 
+
+First verify that Neomake (https://github.com/neomake/neomake) is installed.
+Neomake Autolint depends on Neomake so if it is not installed Neomake Autolint
+will not work.
+
+Check if your version of vim supports jobs, see |job-control| and
+|timer_start()|. You can verify
+this by typing: >
+
+  :echo has('nvim') || has('job') && has('timers')
+<
+If you do not have |job-control| and still desire to run Neomake Autolint you
+can override the default behavior by setting |g:neomake_autolint_enabled| to
+1.
+
+Another issue that could cause Neomake Autolint to be disabled is a missing
+cache directory. In order to run a linter over the currently edited file it
+needs to be saved to disk. Neomake Autolint saves those temporary files in the
+directory as specified in |g:neomake_autolint_cachedir|. Please verify the
+cache directory exists.
+
+4.2 Can the sign column always be displayed?~
+
+See |g:neomake_autolint_sign_column_always| (press `<C-]>` on the link to go there).
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:noet:norl:
