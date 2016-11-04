@@ -20,7 +20,7 @@ For more details see [Neomake's requirements](https://github.com/neomake/neomake
 
 ## Installation
 
-### [Neobundle](https://github.com/Shougo/neobundle.vim) / [Vundle](https://github.com/gmarik/Vundle.vim) / [vim-plug](https://github.com/junegunn/vim-plug)
+### [Neobundle] / [Vundle] / [vim-plug]
 
 ```vim
 NeoBundle 'neomake/neomake'
@@ -32,7 +32,7 @@ Plugin 'dojoteef/neomake-autolint'
 Plug 'neomake/neomake' | Plug 'dojoteef/neomake-autolint'
 ```
 
-### [pathogen](https://github.com/tpope/vim-pathogen)
+### [pathogen]
 
 ```
 git clone https://github.com/neomake/neomake ~/.vim/bundle/neomake
@@ -71,3 +71,11 @@ See `g:neomake_autolint_sign_column_always` in the plugin documentation.
 For more detailed documentation, especially regarding configuration, please
 refer to the [plugin's help](https://github.com/dojoteef/neomake-autolint/tree/master/doc/neomake-autolint.txt)
 (`:h neomake-autolint.txt`).
+
+[Vim]: http://vim.org/
+[Neovim]: http://neovim.org/
+[Neomake]: https://github.com/neomake/neomake
+[Neobundle]: https://github.com/Shougo/neobundle.vim
+[Vundle]: https://github.com/gmarik/Vundle.vim
+[vim-plug]: https://github.com/junegunn/vim-plug
+[pathogen] :https://github.com/tpope/vim-pathogen
