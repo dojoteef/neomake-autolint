@@ -1,5 +1,7 @@
 # Neomake Autolint
 
+![](https://raw.githubusercontent.com/dojoteef/neomake-autolint/master/doc/neomake-autolint.gif)
+
 Neomake Autolint leverages [Neomake]'s ability to asynchronously run linters on
 a file. It augments that functionality with the ability to run file level
 linters as you type so you get the most immediate feedback. This requires your
