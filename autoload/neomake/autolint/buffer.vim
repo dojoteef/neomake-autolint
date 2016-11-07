@@ -25,10 +25,10 @@ function! neomake#autolint#buffer#makers(bufnr) abort
     let l:maker = neomake#GetMaker(l:maker_name, l:ft)
     let l:full_maker_name = l:ft.'_'.l:maker_name
 
-    " Some makers (like the default go makers) operate on an entire
-    " directory which breaks for this file based linting approach. If
-    " 'append_file' exists and is 0 then this is a maker which operates on
-    " the directory rather than the file so skip it.
+    " Some makers (like the default go makers) operate on an entire directory
+    " which breaks for this file based linting approach. If 'append_file'
+    " exists and is 0 then this is a maker which operates on the directory
+    " rather than the file so skip it.
     if exists('l:maker') && get(l:maker, 'append_file', 1)
       if !exists('l:makers_for_buffer[l:full_maker_name]')
         " Make sure we lint the tempfile
@@ -40,11 +40,18 @@ function! neomake#autolint#buffer#makers(bufnr) abort
           call add(l:maker.args, l:tmpfile)
         endif
 
-        " Wrap the existing mapexpr to do extra processing
-        " after it completes
-        let l:maker.mapexpr = printf('substitute(%s, "%s", "%s", "g")',
+        " Wrap the existing mapexpr to do extra processing after it completes.
+        " Use l:neomake_bufname as it is the correct name for the buffer from
+        " that particular maker. This corrects any issues where the name may
+        " have changed between starting the job and ending it (for example due
+        " to changing directory, which can happen with plugins that
+        " automatically change directory). Otherwise when adding to the
+        " location list it may inadvertently create a buffer with the new
+        " name, and the entry will point to this new buffer.
+        let l:maker.mapexpr =
+              \ printf('substitute(%s, "%s", l:neomake_bufname, "g")',
               \ get(l:maker, 'mapexpr', 'v:val'),
-              \ l:tmpfile, expand('%'))
+              \ l:tmpfile)
 
         let l:maker.name = l:full_maker_name
         let l:makers_for_buffer[l:full_maker_name] = l:maker
