@@ -57,10 +57,9 @@ if g:neomake_autolint_enabled
   " Define an invisible sign that can keep the sign column always showing
   execute 'sign define neomake_autolint_invisible'
 
-  " Auto commands for managing the autolinting
-  autocmd neomake_autolint BufWinEnter * call neomake#autolint#Setup()
-  autocmd neomake_autolint VimLeavePre * call neomake#autolint#Removeall()
-  autocmd neomake_autolint BufWipeout * call neomake#autolint#Remove(expand('<abuf>'))
+  " Need to wait until VimEnter has been called before setting up the
+  " autolinting otherwise it may interfere with other plugins on startup.
+  autocmd neomake_autolint VimEnter * call neomake#autolint#Startup()
 endif
 
 let &cpoptions = s:save_cpo

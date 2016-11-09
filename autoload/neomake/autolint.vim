@@ -52,13 +52,26 @@ endfunction
 "=============================================================================
 " Public Functions: Functions that are called by plugin (auto)commands
 "=============================================================================
-function! neomake#autolint#Setup() abort
+function! neomake#autolint#Startup() abort
+  " Setup auto commands for managing the autolinting
+  autocmd neomake_autolint BufWinEnter * call neomake#autolint#Setup()
+  autocmd neomake_autolint VimLeavePre * call neomake#autolint#Removeall()
+  autocmd neomake_autolint BufWipeout * call neomake#autolint#Remove(expand('<abuf>'))
+
+  " Call setup on all the currently visible buffers
+  let l:buflist = uniq(sort(tabpagebuflist()))
+  for l:bufnr in l:buflist
+    call neomake#autolint#Setup(l:bufnr)
+  endfor
+endfunction
+
+function! neomake#autolint#Setup(...) abort
   " Must have a cache directory
   if empty(neomake#autolint#utils#cachedir())
     return
   endif
 
-  let l:bufnr = bufnr('%')
+  let l:bufnr = a:0 ? a:1 : bufnr('%')
   if neomake#autolint#buffer#has(l:bufnr)
     return
   endif
