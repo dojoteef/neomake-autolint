@@ -151,7 +151,7 @@ function! neomake#autolint#Toggle(all, ...) abort
 endfunction
 
 function! neomake#autolint#Remove(bufnr) abort
-  call neomake#utils#QuietMessage(printf('Removing buffer: %s', string(a:bufnr)))
+  call neomake#utils#LoudMessage(printf('Removing buffer: %s', string(a:bufnr)))
   call neomake#autolint#buffer#clear(a:bufnr)
 endfunction
 
