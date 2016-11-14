@@ -53,6 +53,9 @@ endfunction
 " Public Functions: Functions that are called by plugin (auto)commands
 "=============================================================================
 function! neomake#autolint#Startup() abort
+  " Define an invisible sign that can keep the sign column always showing
+  execute 'sign define neomake_autolint_invisible'
+
   " Setup auto commands for managing the autolinting
   autocmd neomake_autolint BufWinEnter * call neomake#autolint#Setup()
   autocmd neomake_autolint VimLeavePre * call neomake#autolint#Removeall()
