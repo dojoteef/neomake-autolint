@@ -13,7 +13,8 @@ CONTENTS                                            *neomake-autolint-contents*
     1. Introduction ....................... |neomake-autolint-introduction|
     2. Configuration ..................... |neomake-autolint-configuration|
     3. Commands ............................... |neomake-autolint-commands|
-    4. Frequently Asked Questions (FAQ) ............ |neomake-autolint-faq|
+    4. Autocommands ........................... |neomake-autolint-autocmds|
+    5. Frequently Asked Questions (FAQ) ............ |neomake-autolint-faq|
 
 ==============================================================================
 1. Introduction                                 *neomake-autolint-introduction*
@@ -62,9 +63,27 @@ specified buffer (defaults to the current buffer), while the command
 |:NeomakeAutolintToggle!| will do that for all buffers.
 
 ==============================================================================
-4. Frequently Asked Questions (FAQ)                      *neomake-autolint-faq*
+4. Autocommands                                     *neomake-autolint-autocmds*
 
-4.1 Neomake Autolint is not working.~
+Neomake Autolint will trigger |User| autocommands for the following events.
+They follow a structure similar to |neomake-autocmds|.
+
+*NeomakeAutolintSetup*
+The |NeomakeAutolintSetup| autocommand fires when the initial setup for the
+buffer has completed, but before the first autolint is automatically
+triggered. The variable `g:neomake_hook_context.bufinfo` will contain a
+dictionary with fields such as the makers and bufnr of the buffer being
+initialized.
+
+*NeomakeAutolint*
+The |NeomakeAutolint| autocommand fires before starting a new lint update. The
+variable `g:neomake_hook_context.bufnr` contains the bufnr of the buffer that
+will be linted.
+
+==============================================================================
+5. Frequently Asked Questions (FAQ)                      *neomake-autolint-faq*
+
+5.1 Neomake Autolint is not working.~
 
 There are a small number of issues that could cause Neomake Autolint to be
 disabled. 
@@ -89,7 +108,7 @@ needs to be saved to disk. Neomake Autolint saves those temporary files in the
 directory as specified in |g:neomake_autolint_cachedir|. Please verify the
 cache directory exists.
 
-4.2 Can the sign column always be displayed?~
+5.2 Can the sign column always be displayed?~
 
 See |g:neomake_autolint_sign_column_always| (press `<C-]>` on the link to go there).
 

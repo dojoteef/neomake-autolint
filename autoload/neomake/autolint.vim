@@ -15,9 +15,10 @@ function! neomake#autolint#update(bufinfo, ...) abort
   " Write the temporary file
   silent! keepalt noautocmd call writefile(
         \ getline(1, '$'),
-        \ neomake#autolint#utils#tempfile('%'))
+        \ a:bufinfo.tmpfile)
 
   " Run neomake in file mode with the autolint makers
+  call neomake#utils#hook('NeomakeAutolint', {'bufnr': a:bufinfo.bufnr})
   call neomake#Make(1, a:bufinfo.makers)
 endfunction
 
@@ -84,9 +85,6 @@ function! neomake#autolint#Setup(...) abort
     " Create the autolint buffer
     let l:bufinfo = neomake#autolint#buffer#create(l:bufnr, l:makers)
 
-    " Run neomake on the initial load of the buffer to check for errors
-    call neomake#autolint#update(l:bufinfo)
-
     if get(g:, 'neomake_autolint_sign_column_always')
       execute 'sign place 999999 line=1 name=neomake_autolint_invisible buffer='.l:bufnr
     endif
@@ -96,6 +94,10 @@ function! neomake#autolint#Setup(...) abort
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""
     autocmd! neomake_autolint * <buffer>
     call neomake#autolint#Toggle(0, bufnr('%'))
+
+    " Run neomake on the initial load of the buffer to check for errors
+    call neomake#utils#hook('NeomakeAutolintSetup', {'bufinfo': l:bufinfo})
+    call neomake#autolint#update(l:bufinfo)
   endif
 endfunction
 
@@ -131,7 +133,7 @@ function! neomake#autolint#Toggle(all, ...) abort
         \ 'Toggling buffers: %s',
         \ join(l:bufnrs, ',')))
 
-  let l:events = 'TextChanged,TextChangedI'
+  let l:events = 'BufWinEnter,TextChanged,TextChangedI'
   for l:bufnr in l:bufnrs
     let l:buffer = printf('<buffer=%d>', l:bufnr)
     let l:cmd = [l:group, l:events, l:buffer]
@@ -142,10 +144,7 @@ function! neomake#autolint#Toggle(all, ...) abort
       call add(l:cmd, printf('call s:neomake_onchange(%d)', l:bufnr))
     endif
 
-    call neomake#utils#DebugMessage(printf(
-          \ 'Executing: %s',
-          \ join(l:cmd)))
-
+    call neomake#utils#DebugMessage(printf('Executing: %s', join(l:cmd)))
     execute join(l:cmd)
   endfor
 endfunction
