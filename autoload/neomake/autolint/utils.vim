@@ -48,7 +48,7 @@ function! neomake#autolint#utils#cachedir() abort
     return s:cachedir
   endif
 
-  let l:cachedir = expand(get(g:, 'neomake_autolint_cachedir'))
+  let l:cachedir = expand(neomake#autolint#config#Get('cachedir'))
   let l:usrcachedir = s:usrcachedir()
   if empty(l:cachedir) && !empty(l:usrcachedir)
       let l:cachedir = l:usrcachedir

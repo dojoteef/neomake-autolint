@@ -105,6 +105,28 @@ cache directory exists.
 
 See `g:neomake_autolint_sign_column_always` in the plugin documentation.
 
+### How can I configure Neomake Autolint to run a lint cycle on <X> event?
+
+By default Neomake Autolint runs a lint cycle when text changes in a buffer
+(whether or not the user is in insert mode), or when the buffer first becomes
+visible on screen (the BufWinEnter event).  If you wish to change this behavior
+you can customize Neomake Autolint to execute a linting cycle when a specified
+event occurs.
+
+```
+  let g:neomake_autolint_events = {
+        \ 'InsertLeave': {'delay': 0},
+        \ 'TextChanged': {},
+        \ }
+```
+
+The above configuration will only run the lint cycle 
+ * immediately on `InsertLeave`
+ * on `TextChanged` with the default delay (see `g:neomake_autolint_updatetime`)
+
+See `g:neomake_autolint_events` in the plugin documentation for more
+information.
+
 ## Plugin Documentation
 
 For more detailed documentation, especially regarding configuration, please

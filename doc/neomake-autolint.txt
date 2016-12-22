@@ -47,12 +47,24 @@ directory can be found the plugin will be disabled.
 
 *g:neomake_autolint_updatetime*
 The number of milliseconds to wait before running another Neomake lint over
-the file. Default to 500.
+the file.
+Default: 500
 
 *g:neomake_autolint_sign_column_always*
 Whether to keep the sign column showing all the time. If you find it annoying
 that the sign column flashes open/closed during autolinting set this to 1.
-Defaults to 0.
+Default: 0
+
+*g:neomake_autolint_events*
+What events should trigger linting and what additional configuration options
+should be specified for the linting. For now the only option is a "delay"
+which is how long after the event to wait before triggering the linting. If
+provided this overrides the global g:neomake_autolint_updatetime option.
+Default: {
+  'BufWinEnter': {"delay": 0},
+  'TextChanged': {},
+  'TextChangedI': {},
+}
 
 ==============================================================================
 3. Commands                                         *neomake-autolint-commands*
@@ -110,7 +122,27 @@ cache directory exists.
 
 5.2 Can the sign column always be displayed?~
 
-See |g:neomake_autolint_sign_column_always| (press `<C-]>` on the link to go there).
+See |g:neomake_autolint_sign_column_always| for more information.
+
+
+5.3 How can I configure Neomake Autolint to run a lint cycle on <X> event?~
+
+By default Neomake Autolint runs a lint cycle when text changes in a buffer
+(whether or not the user is in insert mode), or when the buffer first becomes
+visible on screen (the |BufWinEnter| event).  If you wish to change this
+behavior you can customize Neomake Autolint to execute a linting cycle when a
+specified event occurs. >
+
+  let g:neomake_autolint_events = {
+        \ 'InsertLeave': {'delay': 0},
+        \ 'TextChanged': {},
+        \ }
+<
+The above configuration will only run the lint cycle 
+  - immediately on |InsertLeave|.
+  - on |TextChanged| with the default delay (see |g:neomake_autolint_updatetime|)
+
+See |g:neomake_autolint_events| for more information.
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:noet:norl:
