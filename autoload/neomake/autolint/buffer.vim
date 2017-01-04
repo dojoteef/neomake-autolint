@@ -23,7 +23,7 @@ function! neomake#autolint#buffer#makers(bufnr) abort
   let l:tmpfile = neomake#autolint#utils#tempfile('%')
   for l:maker_name in l:maker_names
     let l:maker = neomake#GetMaker(l:maker_name, l:ft)
-    let l:full_maker_name = l:ft.'_'.l:maker_name
+    let l:full_maker_name = l:ft.'_'.l:maker_name.'_autolint'
 
     " Some makers (like the default go makers) operate on an entire directory
     " which breaks for this file based linting approach. If 'append_file'
@@ -55,6 +55,8 @@ function! neomake#autolint#buffer#makers(bufnr) abort
 
         let l:maker.name = l:full_maker_name
         let l:makers_for_buffer[l:full_maker_name] = l:maker
+        call neomake#utils#DebugMessage(printf(
+              \ 'Registering maker for bufnr %d: %s', a:bufnr, string(l:maker)))
       endif
 
       call add(l:makers, l:maker)
@@ -124,6 +126,7 @@ function! neomake#autolint#buffer#clear(...) abort
     if !empty(l:bufinfo)
       call delete(l:bufinfo.tmpfile)
       call remove(s:neomake_autolint_buffers, l:bufnr)
+      call remove(s:neomake_makers_for_buffer, l:bufnr)
     endif
   endfor
 endfunction
