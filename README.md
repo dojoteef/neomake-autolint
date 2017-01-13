@@ -51,31 +51,31 @@ Following example usecase assumes your current working directory is the root of
 the project you want to run [pylint] on.
 
 ```vim
-  " Correctly setup PYTHONPATH for pylint. Since Neomake-Autolint uses a
-  " temporary file the default PYTHONPATH will be in the temporary directory
-  " rather than the project root.
-  function! s:PylintSetup()
-    " Store off the original PYTHONPATH since it will be modified prior to
-    " doing a lint pass.
-    let s:PythonPath = exists('s:PythonPath') ? s:PythonPath : $PYTHONPATH
-    let l:path = s:PythonPath
-    if match(l:path, getcwd()) >= 0
-      " If the current PYTHONPATH already includes the working directory
-      " then there is nothing left to do
-      return
-    endif
+" Correctly setup PYTHONPATH for pylint. Since Neomake-Autolint uses a
+" temporary file the default PYTHONPATH will be in the temporary directory
+" rather than the project root.
+function! s:PylintSetup()
+  " Store off the original PYTHONPATH since it will be modified prior to
+  " doing a lint pass.
+  let s:PythonPath = exists('s:PythonPath') ? s:PythonPath : $PYTHONPATH
+  let l:path = s:PythonPath
+  if match(l:path, getcwd()) >= 0
+    " If the current PYTHONPATH already includes the working directory
+    " then there is nothing left to do
+    return
+  endif
 
-    if !empty(l:path)
-      " Uses the same path separator that the OS uses, so ':' on Unix and ';'
-      " on Windows. Only consider Unix for now.
-      let l:path.=':'
-    endif
+  if !empty(l:path)
+    " Uses the same path separator that the OS uses, so ':' on Unix and ';'
+    " on Windows. Only consider Unix for now.
+    let l:path.=':'
+  endif
 
-    let $PYTHONPATH=l:path . getcwd()
-  endfunction
+  let $PYTHONPATH=l:path . getcwd()
+endfunction
 
-  autocmd vimrc FileType python
-        \ autocmd vimrc User NeomakeAutolint call s:PylintSetup()
+autocmd vimrc FileType python
+      \ autocmd vimrc User NeomakeAutolint call s:PylintSetup()
 ```
 
 ## Frequently Asked Questions (FAQ)
@@ -114,10 +114,10 @@ you can customize Neomake Autolint to execute a linting cycle when a specified
 event occurs.
 
 ```vim
-  let g:neomake_autolint_events = {
-        \ 'InsertLeave': {'delay': 0},
-        \ 'TextChanged': {},
-        \ }
+let g:neomake_autolint_events = {
+      \ 'InsertLeave': {'delay': 0},
+      \ 'TextChanged': {},
+      \ }
 ```
 
 The above configuration will only run the lint cycle 
