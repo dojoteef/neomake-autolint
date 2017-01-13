@@ -50,7 +50,7 @@ it to correctly infer imports. One way to do this is by using the autocommands
 Following example usecase assumes your current working directory is the root of
 the project you want to run [pylint] on.
 
-```
+```vim
   " Correctly setup PYTHONPATH for pylint. Since Neomake-Autolint uses a
   " temporary file the default PYTHONPATH will be in the temporary directory
   " rather than the project root.
@@ -113,7 +113,7 @@ visible on screen (the BufWinEnter event).  If you wish to change this behavior
 you can customize Neomake Autolint to execute a linting cycle when a specified
 event occurs.
 
-```
+```vim
   let g:neomake_autolint_events = {
         \ 'InsertLeave': {'delay': 0},
         \ 'TextChanged': {},
