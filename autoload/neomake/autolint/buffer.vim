@@ -40,6 +40,15 @@ function! neomake#autolint#buffer#makers(bufnr) abort
           call add(l:maker.args, l:tmpfile)
         endif
 
+        " It seems that the maker could modify/shorten the
+        " filename to be relative to the current working directory, so that
+        " needs to be accounted for.
+        let l:tmpfile_pattern = printf(
+              \ "printf('%s', %s, %s)",
+              \ '\(%s\|%s\)',
+              \ 'fnamemodify("'.l:tmpfile.'", ":p")',
+              \ 'fnamemodify("'.l:tmpfile.'", ":.")')
+
         " Wrap the existing mapexpr to do extra processing after it completes.
         " Use l:neomake_bufname as it is the correct name for the buffer from
         " that particular maker. This corrects any issues where the name may
@@ -49,9 +58,9 @@ function! neomake#autolint#buffer#makers(bufnr) abort
         " location list it may inadvertently create a buffer with the new
         " name, and the entry will point to this new buffer.
         let l:maker.mapexpr =
-              \ printf('substitute(%s, "%s", l:neomake_bufname, "g")',
+              \ printf('substitute(%s, %s, l:neomake_bufname, "g")',
               \ get(l:maker, 'mapexpr', 'v:val'),
-              \ l:tmpfile)
+              \ l:tmpfile_pattern)
 
         let l:maker.name = l:full_maker_name
         let l:makers_for_buffer[l:full_maker_name] = l:maker
