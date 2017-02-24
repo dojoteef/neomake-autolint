@@ -19,11 +19,11 @@ function! neomake#autolint#buffer#makers(bufnr) abort
 
   let l:ft = &filetype
   let l:makers = []
-  let l:maker_names = neomake#GetEnabledMakers(l:ft)
+  let l:maker_dicts = neomake#GetEnabledMakers(l:ft)
   let l:tmpfile = neomake#autolint#utils#tempfile('%')
-  for l:maker_name in l:maker_names
-    let l:maker = neomake#GetMaker(l:maker_name, l:ft)
-    let l:full_maker_name = l:ft.'_'.l:maker_name.'_autolint'
+  for l:maker_dict in l:maker_dicts
+    let l:maker = neomake#GetMaker(l:maker_dict, l:ft)
+    let l:full_maker_name = l:ft.'_'.l:maker.name.'_autolint'
 
     " Some makers (like the default go makers) operate on an entire directory
     " which breaks for this file based linting approach. If 'append_file'
