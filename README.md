@@ -1,5 +1,12 @@
 # Neomake Autolint
 
+## DEPRECATED
+
+[Neomake] has this functionality [built-in now](https://github.com/neomake/neomake/commit/48df73ff790214bd95619c1696d2bed81c96a09b), hoorah!
+
+What are you doing still rummaging around this old crusty plugin?! If you're
+feeling nostalgic for the short-lived wonder of Neomake Autolint read on!
+
 ![](https://raw.githubusercontent.com/dojoteef/neomake-autolint/master/doc/neomake-autolint.gif)
 
 Neomake Autolint leverages [Neomake]'s ability to asynchronously run linters on
